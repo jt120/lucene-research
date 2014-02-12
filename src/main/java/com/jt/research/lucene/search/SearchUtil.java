@@ -61,7 +61,7 @@ public class SearchUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 实现近实时搜索
 	 * @param indexWriter
@@ -81,6 +81,11 @@ public class SearchUtil {
 	public void termQuery(String field, String value) {
 		Query query = new TermQuery(new Term(field, value));
 		easySearch(query);
+	}
+
+	public void termQueryFile(String field, String value) {
+		Query query = new TermQuery(new Term(field, value));
+		easySearchFile(query);
 	}
 
 	public void booleanQuery(BooleanClause.Occur o, Term... value) {
@@ -107,28 +112,28 @@ public class SearchUtil {
 		FuzzyQuery query = new FuzzyQuery(new Term(field, value));
 		easySearch(query);
 	}
-	
+
 	public void numRangeQuery(int start, int end) {
 		 Query query = NumericRangeQuery.newIntRange("num", start, end, true, true);
 		 easySearch(query);
 	}
-	
+
 	public void matchAll() {
 		Query query = new MatchAllDocsQuery();
 		easySearch(query);
 	}
-	
+
 	public void matchAllFile() {
 		Query query = new MatchAllDocsQuery();
 		easySearchFile(query);
 	}
-	
+
 	public void filterQuery() {
 		Query query = new MatchAllDocsQuery();
 		Filter filter = new FieldValueFilter("ids",true);
 		easySearch(query, filter);
 	}
-	
+
 	public void queryParse(String input) {
 		QueryParser queryParser = new QueryParser(matchVersion, "f", analyzer);
 		try {
@@ -138,7 +143,7 @@ public class SearchUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void myParser(String input) {
 		QueryParser queryParser = new MyQueryParser(matchVersion, "date", analyzer);
 		try {
@@ -148,7 +153,7 @@ public class SearchUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private TopDocs easySearch(Query query, Filter filter) {
 		try {
 			TopDocs topDocs = indexSearcher.search(query, filter, 100);
@@ -186,7 +191,7 @@ public class SearchUtil {
 		}
 		return null;
 	}
-	
+
 	private void smartPrintFile(TopDocs topDocs, IndexSearcher indexSearcher) {
 		try {
 			for (ScoreDoc sDoc : topDocs.scoreDocs) {
@@ -199,7 +204,7 @@ public class SearchUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void smartPrint(TopDocs topDocs, IndexSearcher indexSearcher) {
 		try {
 			for (ScoreDoc sDoc : topDocs.scoreDocs) {
@@ -213,14 +218,14 @@ public class SearchUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String parseDate(String l) {
 		long num = Long.parseLong(l);
 		Date date = new Date(num);
 		String result = format.format(date);
 		return result;
 	}
-	
+
 	public void close() {
 		try {
 			if(directory!=null) directory.close();

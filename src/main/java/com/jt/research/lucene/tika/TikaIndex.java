@@ -31,6 +31,8 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.TikaCoreProperties;
 
 import com.jt.research.lucene.index.IndexUtil;
 import com.jt.research.lucene.utils.FileUtil;
@@ -77,14 +79,21 @@ public class TikaIndex {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public String fileToTxt(File file) {
 		Tika tika = new Tika();
+		tika.setMaxStringLength(Integer.MAX_VALUE);
+		Metadata metadata = new Metadata();
+		metadata.set(TikaCoreProperties.CREATOR, "空号");
+		metadata.set(Metadata.RESOURCE_NAME_KEY, file.getName());
 		String s = null;
 		try {
-			s = tika.parseToString(new FileInputStream(file));
+			s = tika.parseToString(new FileInputStream(file),metadata);
+			for(String name:metadata.names()) {
+				System.out.println(name+":"+metadata.get(name));
+			}
 		} catch (IOException | TikaException e) {
 			e.printStackTrace();
 		}
@@ -119,7 +128,7 @@ public class TikaIndex {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void mergeDelete() {
 		try {
 			indexWriter.forceMergeDeletes();
@@ -154,7 +163,7 @@ public class TikaIndex {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public IndexWriter getIndexWriter() {
 		return indexWriter;
 	}
