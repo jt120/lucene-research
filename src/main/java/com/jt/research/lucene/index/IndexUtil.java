@@ -31,12 +31,14 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
+import com.jt.research.lucene.utils.Key;
+
 public class IndexUtil {
 
 	private static Logger logger = LogManager.getLogger(IndexUtil.class);
 
-	private static String indexPath = "d:/test/lucene/index";
-	private static Version version = Version.LUCENE_46;
+	private static String indexPath = Key.PATH;
+	private static Version version = Key.version;
 
 	private String[] ids = { "1", "2", "3", "4", "5" };
 	private String[] names = { "zhangsan", "lisi", "wangwu", "suwukong",
@@ -46,11 +48,11 @@ public class IndexUtil {
 	private String[] cities = { "new york", "bei jing", "tian jin", "tai yuan",
 			" da lian" };
 	private String[] contents = {
-			"Your future depends on your dreams. So go to sleep",
-			"Four Ways to Create a Better Workplace",
-			"Underwater hotel room opens on remote African island ",
-			"Pretty Hurts-Beyoncé",
-			"Raising Children With An Attitude Of Gratitude" };
+			"我爱北京天安门",
+			"今天你吃了吗",
+			"我正在工作",
+			"不好意思",
+			"北京的雾霾太严重了" };
 	private int[] nums = { 120, 200, 300, 340, 500 };
 	private static Date[] dates = new Date[5];
 	static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

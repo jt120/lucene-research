@@ -39,10 +39,12 @@ import org.apache.lucene.util.Version;
 
 import com.jt.research.lucene.parser.MyQueryParser;
 import com.jt.research.lucene.utils.DirectoryUtil;
+import com.jt.research.lucene.utils.Key;
 
 public class SearchUtil {
-	private static String indexPath = "d:/test/lucene/index";
-	private final static Version matchVersion = Version.LUCENE_46;
+	private static String indexPath = Key.PATH;
+	private static Version version = Key.version;
+
 	private static Analyzer analyzer = null;
 	IndexReader indexReader = null;
 	IndexSearcher indexSearcher = null;
@@ -56,7 +58,7 @@ public class SearchUtil {
 			directory = directoryUtil.getDirectory();
 			indexReader = DirectoryReader.open(directory);
 			indexSearcher = new IndexSearcher(indexReader);
-			analyzer = new StandardAnalyzer(matchVersion);
+			analyzer = new StandardAnalyzer(version);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -135,7 +137,7 @@ public class SearchUtil {
 	}
 
 	public void queryParse(String input) {
-		QueryParser queryParser = new QueryParser(matchVersion, "f", analyzer);
+		QueryParser queryParser = new QueryParser(version, "f", analyzer);
 		try {
 			Query query = queryParser.parse(input);
 			easySearch(query);
@@ -145,7 +147,7 @@ public class SearchUtil {
 	}
 
 	public void myParser(String input) {
-		QueryParser queryParser = new MyQueryParser(matchVersion, "date", analyzer);
+		QueryParser queryParser = new MyQueryParser(version, "date", analyzer);
 		try {
 			Query query = queryParser.parse(input);
 			easySearch(query);
@@ -199,6 +201,7 @@ public class SearchUtil {
 				System.out.println("[" + doc.get("fileName") + "]fileSize:"
 						+ doc.get("fileSize") + ", filePath:" + doc.get("filePath")
 						+ ", score:" + sDoc.score);
+				System.out.println("content: "+doc.get("content"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -212,7 +215,8 @@ public class SearchUtil {
 				System.out.println("[id-" + doc.get("id") + "]name:"
 						+ doc.get("name") + ", email:" + doc.get("email")
 						+ ", city:" + doc.get("city")+  ", time:"+ parseDate(doc.get("date"))
-						+ ", num:"+doc.get("num") + ", score:" + sDoc.score);
+						+ ", num:"+doc.get("num") + ", score:" + sDoc.score+"\n"+doc.get("content"));
+				System.out.println("content: "+doc.get("content"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

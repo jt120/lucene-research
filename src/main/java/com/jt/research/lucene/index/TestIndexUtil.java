@@ -21,6 +21,7 @@ public class TestIndexUtil {
 	
 	@Test
 	public void testIndex() {
+		indexUtil.deleteAll();
 		indexUtil.index();
 		indexUtil.query();
 	}

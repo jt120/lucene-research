@@ -36,12 +36,13 @@ import org.apache.tika.metadata.TikaCoreProperties;
 
 import com.jt.research.lucene.index.IndexUtil;
 import com.jt.research.lucene.utils.FileUtil;
+import com.jt.research.lucene.utils.Key;
 
 public class TikaIndex {
 	private static Logger logger = LogManager.getLogger(IndexUtil.class);
 
-	private static String indexPath = "d:/test/lucene/tika/index";
-	private static Version version = Version.LUCENE_46;
+	private static String indexPath = Key.PATH;
+	private static Version version = Key.version;
 
 	static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
